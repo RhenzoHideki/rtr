@@ -13,7 +13,7 @@ using namespace std;
 
 void concatenador(string f);
 
-bool procuraFAW();
+bool procuraPAQ();
 
 bool alinha(string f);
 

@@ -18,29 +18,29 @@ string divisorFrames(string &frame){
     return byte;
 }
 
-void interpretador(string frame, bool FAW){
+void interpretador(string frame, bool PAQ){
     vector<string> componentes;
     for(int i=0; i<32; i++){
         componentes.push_back(divisorFrames(frame));
     }
 
-    if(FAW){
-        cout << "Frame Alignment Word (FAW): " << componentes[0] <<endl;
+    if(PAQ){
+        cout << "Palavra de Alinhamento do (PAQ): " << componentes[0] <<endl;
     }else{
         cout << "Byte auxiliar 1: " << componentes[0] << endl;
     }
-    cout << "Byte de sinalização" << componentes[16] << endl;
+    cout << "Byte de sinalização: " << componentes[16] << endl;
 
     for(int i = 1; i < 16; i++){
         if(i < 9){
-            cout << "FS-" << i+1 << componentes[i] << " " << "|" << " ";
+            cout << "Time Slot - " << i+1 << " " << componentes[i] << " " << "|" << " ";
         }else{
-            cout << "FS-" << i+1 << componentes[i] << " " << "|" << " ";
+            cout << "Time Slot - " << i+1 << " "  << componentes[i] << " " << "|" << " ";
         }
     }
     cout << endl;
     for(int i = 17; i < 32; i++){
-        cout << "FS-" << i << ": " << componentes[i] << " " << "|" << " ";
+        cout << "Time Slot - " << i << ": " << componentes[i] << " " << "|" << " ";
     }
     cout << endl;
 

@@ -1,8 +1,5 @@
 #include "alinhador.h"
-
-string bitAuxiliar = "1";
-string FAW = "0011011";
-string fullFAW = bitAuxiliar + FAW;
+string PAQ = "10011011";
 string longFrame;
 int alinhamentoIndex = 1;
 
@@ -20,15 +17,15 @@ string capturaFrame(){
 bool alinha(string frame){
     if(alinhamentoIndex == 5){
         alinhamentoIndex = 0;
-        if(procuraFAW() != false){
+        if(procuraPAQ() != false){
             return true;
         }
     }
     return false;
 }
 
-bool procuraFAW(){
-    size_t index = longFrame.find(fullFAW);
+bool procuraPAQ(){
+    size_t index = longFrame.find(PAQ);
     
     if(index == string::npos){
         return false;
@@ -40,6 +37,6 @@ bool procuraFAW(){
     }
     longFrame.erase(0,index + 1);
 
-    return procuraFAW();
+    return procuraPAQ();
 
 }
