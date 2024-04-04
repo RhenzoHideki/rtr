@@ -25,22 +25,18 @@ void interpretador(string frame, bool PAQ){
     }
 
     if(PAQ){
-        cout << "Palavra de Alinhamento do (PAQ): " << componentes[0] <<endl;
+        cout << "Time Slot 0 - " "Palavra de Alinhamento do (PAQ): " << componentes[0] <<endl;
     }else{
         cout << "Byte auxiliar 1: " << componentes[0] << endl;
     }
-    cout << "Byte de sinalização: " << componentes[16] << endl;
 
     for(int i = 1; i < 16; i++){
-        if(i < 9){
-            cout << "Time Slot - " << i+1 << " " << componentes[i] << " " << "|" << " ";
-        }else{
-            cout << "Time Slot - " << i+1 << " "  << componentes[i] << " " << "|" << " ";
-        }
+        cout << "Time Slot " << i << " - Canal de voz "<< i << ": " << componentes[i] << endl;
     }
-    cout << endl;
+    cout << "Time Slot 17 - " << "Canal de sinalação: " << componentes[16] << endl;
+
     for(int i = 17; i < 32; i++){
-        cout << "Time Slot - " << i << ": " << componentes[i] << " " << "|" << " ";
+        cout << "Time Slot " << i << " - Canal de voz "<< i-1 << ": " << componentes[i] << endl;
     }
     cout << endl;
 
@@ -69,7 +65,7 @@ string leitorFrames(int frameIndex, const string arquivoNome){
 
 int main(){
     bool alinhamento = false;
-    int frameindex = 1;
+    int frameindex = 0;
 
     for(int i=0; i<20 ; i++){
         string frame = leitorFrames(i,"pcm30TX.txt");
