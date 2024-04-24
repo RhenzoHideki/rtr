@@ -1,4 +1,0 @@
-/home/rhenzo/eng/rtr/PCM30/CMakeFiles/receiverE1.dir
-/home/rhenzo/eng/rtr/PCM30/CMakeFiles/run.dir
-/home/rhenzo/eng/rtr/PCM30/CMakeFiles/edit_cache.dir
-/home/rhenzo/eng/rtr/PCM30/CMakeFiles/rebuild_cache.dir
