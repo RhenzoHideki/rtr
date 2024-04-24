@@ -46,7 +46,7 @@ def encontraPamq(pamq, quadro):
             multiQuadro.append(q)
 
     return multiQuadro
-
+ 
 
 with open('RX(vetor)MQ_v2.txt') as arq:
     dado = arq.read()
