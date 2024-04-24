@@ -4,7 +4,7 @@ project(receiverE1)
 set(CMAKE_CXX_STANDARD 11)
 include_directories(.)
 
-add_executable(receiverE1 main.cpp alinhador.cpp)
+add_executable(receiverE1 main.cpp alinhador.cpp pamq.cpp)
 
 add_custom_target(run
     COMMAND receiverE1

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/receiverE1.dir/main.cpp.o CMakeFiles/receiverE1.dir/alinhador.cpp.o -o receiverE1 
+/usr/bin/c++ CMakeFiles/receiverE1.dir/main.cpp.o CMakeFiles/receiverE1.dir/alinhador.cpp.o CMakeFiles/receiverE1.dir/pamq.cpp.o -o receiverE1 

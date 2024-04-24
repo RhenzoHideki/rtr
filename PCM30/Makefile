@@ -190,6 +190,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/receiverE1.dir/build.make CMakeFiles/receiverE1.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+pamq.o: pamq.cpp.o
+.PHONY : pamq.o
+
+# target to build an object file
+pamq.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/receiverE1.dir/build.make CMakeFiles/receiverE1.dir/pamq.cpp.o
+.PHONY : pamq.cpp.o
+
+pamq.i: pamq.cpp.i
+.PHONY : pamq.i
+
+# target to preprocess a source file
+pamq.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/receiverE1.dir/build.make CMakeFiles/receiverE1.dir/pamq.cpp.i
+.PHONY : pamq.cpp.i
+
+pamq.s: pamq.cpp.s
+.PHONY : pamq.s
+
+# target to generate assembly for a file
+pamq.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/receiverE1.dir/build.make CMakeFiles/receiverE1.dir/pamq.cpp.s
+.PHONY : pamq.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -206,6 +230,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... pamq.o"
+	@echo "... pamq.i"
+	@echo "... pamq.s"
 .PHONY : help
 
 

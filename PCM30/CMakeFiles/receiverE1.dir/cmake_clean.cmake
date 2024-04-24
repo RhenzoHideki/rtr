@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/receiverE1.dir/alinhador.cpp.o.d"
   "CMakeFiles/receiverE1.dir/main.cpp.o"
   "CMakeFiles/receiverE1.dir/main.cpp.o.d"
+  "CMakeFiles/receiverE1.dir/pamq.cpp.o"
+  "CMakeFiles/receiverE1.dir/pamq.cpp.o.d"
   "receiverE1"
   "receiverE1.pdb"
 )

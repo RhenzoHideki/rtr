@@ -1,94 +1,112 @@
-#include <stdexcept>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <sstream>
 #include <vector>
-#include <iostream>
-#include <unistd.h>
-#include <fstream>
-#include <stdexcept>
-#include "alinhador.h"
 
-using namespace std;
 
-string divisorFrames(string &frame){
-    string byte = frame.substr(0,8);
-    frame.erase(0,8);
-    return byte;
-}
+std::vector<std::string> encontraPaq(const std::string& dado, const std::string& paq) {
+    std::vector<std::string> timeSlot;
 
-void interpretador(string frame, bool PAQ){
-    vector<string> componentes;
-    for(int i=0; i<32; i++){
-        componentes.push_back(divisorFrames(frame));
-    }
-
-    if(PAQ){
-        cout << "Time Slot 0 - " "Palavra de Alinhamento do (PAQ): " << componentes[0] <<endl;
-    }else{
-        cout << "Byte auxiliar 1: " << componentes[0] << endl;
-    }
-
-    for(int i = 1; i < 16; i++){
-        cout << "Time Slot " << i << " - Canal de voz "<< i << ": " << componentes[i] << endl;
-    }
-    cout << "Time Slot 17 - " << "Canal de sinalação: " << componentes[16] << endl;
-
-    for(int i = 17; i < 32; i++){
-        cout << "Time Slot " << i << " - Canal de voz "<< i-1 << ": " << componentes[i] << endl;
-    }
-    cout << endl;
-
-}
-
-string leitorFrames(int frameIndex, const string arquivoNome){
-    ifstream arq(arquivoNome);
-    if(!arq.is_open()){
-        throw runtime_error("Arquivo invalido");
-    }
-
-    vector<string> linhas;
-    string linha;
+    const int A = 256;
+    const int fim = 512;
     
-    while(getline(arq,linha)){
-        linhas.push_back(linha);
+    if (dado.substr(A, 1) == "1" && dado.substr(fim, 8) == paq) {
+        std::cout << dado.substr(0, fim);
+        for (int j = 0; j < fim; j += 8) {
+            timeSlot.push_back(dado.substr(j, 8));
+        }
     }
-    
-    if (frameIndex >= linhas.size())
-    {
-        throw runtime_error("Frame index fora do range");
-    }
-
-    return linhas[frameIndex];
+    return timeSlot;
 }
 
-int main(){
-    bool alinhamento = false;
-    int frameindex = 0;
 
-    for(int i=0; i<20 ; i++){
-        string frame = leitorFrames(i,"pcm30TX.txt");
-        concatenador(frame);
+void mostraQuadros(const std::vector<std::string>& quadro) {
+    while (true) {
+        std::cout << "\nEscolha o quadro (0-" << quadro.size()/32 - 1<< ") ou -1 para mostrar todos os quadros ou pressione -2 para sair: ";
+        int escolha;
+        std::cin >> escolha;
 
-        if(!alinhamento){
-            alinhamento = alinha(frame);
-        }else{
-            cout << endl;
-            
-            cout << "Frame " << frameindex << " content: " << endl;
-
-            if(frameindex % 2 != 0){
-                string frame = capturaFrame();
-                interpretador(frame,true);
-            }else{
-                string frame = capturaFrame(); 
-                interpretador(frame,true);
+        if (escolha == -2) {
+            break;
+        } else if (escolha == -1) {
+            for (size_t i = 0; i < quadro.size(); i++) {
+                std::cout << "\nQuadro " << i << ": \n" << quadro[i] << "\n";
             }
-        frameindex++;
-        }       
-    usleep(125000);
+        } else if (escolha >= 0 && escolha < quadro.size()) {
+            for(int i = 0; i < 32 ;i++){
+            std::cout << "'" << quadro[escolha+(i*16)] << "' ,";
+            }
+            std::cout << std::endl;
+        } else {
+            std::cout << "\nQuadro inexistente!\n";
+        }
     }
-    
+}
 
+
+std::vector<std::string> encontraPamq(const std::string& pamq, const std::vector<std::string>& quadro) {
+    std::vector<std::string> multiQuadro;
+    bool isCollecting = false;
+
+    for (const auto& q : quadro) {
+        if (q.substr(0,4) == pamq) {
+            if (!isCollecting) {
+                multiQuadro.push_back(q);
+                isCollecting = true;
+            } else {
+                break;
+            }
+        } else if (isCollecting) {
+            multiQuadro.push_back(q);
+        }
+    }
+    return multiQuadro;
+}
+
+
+
+int main() {
+    std::ifstream arq("pcm30TX.txt");
+    std::string dado, linha;
+    while (std::getline(arq, linha)) {
+        dado += linha;
+    }
+
+    size_t inic = 0;
+    std::vector<std::string> quadro;
+    std::string paq = "10011011";
+    std::vector<size_t> paqVerd;
+    std::string pamq = "0000";
+
+    std::cout << "\nBits alinhados:";
+
+    while (true) {
+        inic = dado.find(paq, inic);
+
+        if (inic == std::string::npos) {
+            break;
+        } else {
+            std::vector<std::string> timeSlot = encontraPaq(dado.substr(inic), paq);
+
+            if (!timeSlot.empty()) {
+                paqVerd.push_back(inic);
+                quadro.insert(quadro.end(), timeSlot.begin(), timeSlot.end());
+            }
+
+            inic += 1;
+        }
+    }
+
+    std::cout << "\n\nOs PAQs verdadeiros estão nas posições:";
+    for (size_t i = 0; i < paqVerd.size(); ++i) {
+        std::cout << " " << paqVerd[i];
+    }
+
+    if (!quadro.empty()) {
+        std::vector<std::string> quadroPamq = encontraPamq(pamq, quadro);
+        mostraQuadros(quadroPamq);
+    } else {
+        std::cout << "\nNão há nenhum quadro dentro do arquivo!" << std::endl;
+    }
+
+    return 0;
 }
